@@ -1,10 +1,12 @@
 name: Build and Release Manual
+permissions:
+  contents: write
 
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers on v1.0.0, v1.2.3, etc.
-  workflow_dispatch:  # Manual trigger option
+      - "v*.*.*" # Triggers on v1.0.0, v1.2.3, etc.
+  workflow_dispatch: # Manual trigger option
 
 jobs:
   build-and-release:
@@ -17,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       # Cache pip dependencies and apt packages
       - name: Cache dependencies
