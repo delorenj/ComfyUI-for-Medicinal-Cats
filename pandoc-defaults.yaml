@@ -1,0 +1,28 @@
+# ComfyUI for Medicinal Cats - Pandoc Defaults
+from: markdown
+to: html5
+standalone: true
+self-contained: true
+
+metadata:
+  title: "ComfyUI for Medicinal Cats"
+  author: "Dr. Nyquil 'Dose' Whiskerstein, Pharm.D."
+  subject: "ComfyUI Node-Based AI Generation"
+  keywords: [AI, ComfyUI, Stable Diffusion, Cats, Pharmaceutical]
+
+css:
+  - assets/manual.css
+
+variables:
+  lang: en-US
+
+table-of-contents: true
+toc-depth: 2
+
+number-sections: true
+
+# Image path fix
+resource-path:
+  - "."
+  - "content"
+  - "content/images"

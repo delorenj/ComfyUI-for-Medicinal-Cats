@@ -1,0 +1,91 @@
+name: Build and Release Manual
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on v1.0.0, v1.2.3, etc.
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Cache pip dependencies and apt packages
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            /var/cache/apt/archives
+          key: ${{ runner.os }}-deps-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc chromium-browser xvfb
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          # Add this if you have requirements.txt, otherwise remove
+          # pip install -r requirements.txt
+
+      - name: Build PDF with virtual display
+        run: xvfb-run -a python3 scripts/build.py
+
+      - name: Create source bundle
+        run: |
+          mkdir -p release-artifacts
+          tar -czf release-artifacts/source-bundle.tar.gz \
+            content/ \
+            assets/ \
+            scripts/build.py \
+            README.md
+
+      - name: Generate build metadata
+        run: |
+          cat > release-artifacts/BUILD_INFO.txt <<EOF
+          Build Date: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          Git Commit: ${{ github.sha }}
+          Git Tag: ${{ github.ref_name }}
+          Builder: GitHub Actions
+          EOF
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            output/ComfyUI_for_Medicinal_Cats.pdf
+            release-artifacts/source-bundle.tar.gz
+            release-artifacts/BUILD_INFO.txt
+          body: |
+            ## ComfyUI for Medicinal Cats - ${{ github.ref_name }}
+
+            **Built from commit**: ${{ github.sha }}
+
+            ### What's Included
+            - **PDF Manual**: Complete compiled guide
+            - **Source Bundle**: Markdown chapters, images, and build scripts
+            - **Build Info**: Metadata about this release
+
+            ### Changes in this Release
+            Phase 1 Critical Fixes implemented:
+            - Domain expertise: 7 technical accuracy improvements
+            - Comedy enhancements: 3 high-impact humor upgrades
+            - Visual improvements: CSS pharmaceutical theming, typography, print optimization
+
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

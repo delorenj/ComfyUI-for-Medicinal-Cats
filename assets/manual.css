@@ -1,0 +1,251 @@
+/* Pharmaceutical Color Palette */
+:root {
+    --nyquil-green: #006B54;
+    --drowsy-purple: #7B68B8;
+    --prescription-pink: #FFF9FB;
+    --capsule-blue: #4A90E2;
+    --warning-amber: #F5A623;
+    --sedative-gray: #E8E8E8;
+    --pill-white: #F8F9FA;
+    --label-text: #333;
+}
+
+body {
+    font-family: 'Libertinus Serif', Georgia, serif;
+    line-height: 1.6;
+    color: var(--label-text);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2em;
+    background-color: var(--pill-white);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Libre Franklin', sans-serif;
+    color: var(--nyquil-green);
+}
+
+h1 {
+    border-bottom: 2px solid var(--nyquil-green);
+    padding-bottom: 0.3em;
+    margin-top: 2em;
+    page-break-before: always;
+}
+
+/* Prescription-style blockquotes (Nyquil Cat's voice) */
+blockquote {
+    font-family: 'Courier New', Courier, monospace;
+    background: var(--prescription-pink);
+    background-image: linear-gradient(to bottom, rgba(123, 104, 184, 0.05) 0%, transparent 100%);
+    border-left: 10px solid var(--drowsy-purple);
+    border-top: 2px dashed var(--sedative-gray);
+    border-bottom: 2px dashed var(--sedative-gray);
+    margin: 1.5em 10px;
+    padding: 0.8em 1em;
+    font-style: italic;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+blockquote::before {
+    content: "Rx";
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--drowsy-purple);
+    opacity: 0.3;
+}
+
+code {
+    background-color: var(--sedative-gray);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--nyquil-green);
+}
+
+pre {
+    background-color: var(--sedative-gray);
+    padding: 1em;
+    border-left: 5px solid var(--nyquil-green);
+    overflow-x: auto;
+    border-radius: 4px;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Enhanced image styling with dreamstate aesthetic */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5em auto;
+    border: 3px solid var(--sedative-gray);
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+    filter: brightness(1.02) contrast(1.03);
+}
+
+/* Dreamstate images get extra styling */
+img[alt*="Dream"],
+img[alt*="dream"],
+img[alt*="latent"],
+img[alt*="Latent"] {
+    border-color: var(--drowsy-purple);
+    box-shadow: 0 8px 16px rgba(123, 104, 184, 0.3),
+                0 0 20px rgba(123, 104, 184, 0.1);
+    filter: brightness(1.03) contrast(1.05) saturate(1.05);
+}
+
+/* Medical/diagram images get clinical styling */
+img[alt*="diagram"],
+img[alt*="Diagram"],
+img[alt*="chart"],
+img[alt*="Chart"],
+img[alt*="prescription"],
+img[alt*="Prescription"] {
+    border-color: var(--nyquil-green);
+    background: white;
+    padding: 0.5em;
+    box-shadow: 0 4px 8px rgba(0, 107, 84, 0.2);
+}
+
+/* Warning/alert boxes */
+strong:has(+ em),
+em:has(+ strong) {
+    color: var(--warning-amber);
+}
+
+.title-page {
+    text-align: center;
+    page-break-after: always;
+}
+
+.title-page h1 {
+    font-size: 3em;
+    color: var(--nyquil-green);
+}
+
+.toc {
+    page-break-after: always;
+}
+
+/* Table styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+th {
+    background-color: var(--nyquil-green);
+    color: white;
+    padding: 0.8em;
+    text-align: left;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 600;
+}
+
+td {
+    padding: 0.8em;
+    border-bottom: 1px solid var(--sedative-gray);
+}
+
+tr:hover {
+    background-color: var(--prescription-pink);
+}
+
+/* Links */
+a {
+    color: var(--capsule-blue);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--capsule-blue);
+}
+
+a:hover {
+    color: var(--nyquil-green);
+    border-bottom-color: var(--nyquil-green);
+}
+
+/* Print/PDF optimization */
+@media print {
+    body {
+        max-width: 100%;
+        padding: 0;
+        background-color: white;
+        color: black;
+    }
+
+    h1 {
+        page-break-before: always;
+        page-break-after: avoid;
+    }
+
+    h2, h3, h4 {
+        page-break-after: avoid;
+    }
+
+    img {
+        page-break-inside: avoid;
+        max-width: 100%;
+        /* Ensure images don't waste space */
+        display: block;
+        margin: 1em auto;
+    }
+
+    blockquote {
+        page-break-inside: avoid;
+    }
+
+    pre {
+        page-break-inside: avoid;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+
+    /* Prevent orphans and widows */
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* Hide web-only elements */
+    .no-print {
+        display: none;
+    }
+
+    /* Ensure links are visible in print */
+    a {
+        color: var(--capsule-blue);
+        text-decoration: underline;
+    }
+
+    /* Show link URLs after text (optional) */
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: var(--label-text);
+    }
+}
+
+/* PDF-specific optimizations */
+@media (prefers-color-scheme: print) {
+    img {
+        /* Optimize for PDF rendering */
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
